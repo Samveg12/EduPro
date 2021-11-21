@@ -8,12 +8,24 @@ from .forms import Registerdetail,newCourse
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.auth import authenticate, login, logout
 from .models import Belonging,Others,NewCourse
-from student.models import Belongs
+from student.models import Belongs,myBookedSlots
 from django.core.mail import send_mail
+from django.views.generic.edit import CreateView,UpdateView,DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils import timezone
 
+
 def index(request):
-    return render(request,'teacher/index.html')
+    s=NewCourse.objects.filter(user=request.user)
+    paramter={'s':s}
+    return render(request,'teacher/index.html',paramter)
+
+# AI-2
+# TOC-4
+# OOPS-2
+# SE-2
+# DC-1
+
 
 def signup(request):
     if request.method == "POST":
@@ -65,6 +77,18 @@ def logout_u(request):
 #         else:
 #             return(False)
 
+def mybooked(request):
+    s=myBookedSlots.objects.all()
+    v=[]
+    for i in s:
+        if(i.user==request.user):
+            v.append(i)
+    return render(request, 'teacher/booked.html', {'v':v})
+
+
+
+
+
 
 def newcourse(request):
     userr=request.user
@@ -96,7 +120,21 @@ def newcourse(request):
     else:
         return redirect("/login")
 
+class updates(LoginRequiredMixin,UpdateView):
+	model = NewCourse
+	template_name = "teacher/update.html"
+	fields = ("title","timings","price","description")
+	success_url = "/teacher"
+	def get_form(self):
+		form = super(updates,self).get_form()
+		# form.fields['startdate'].widget = DateTimePickerInput()
+		# form.fields['enddate'].widget = DateTimePickerInput()
+		return form 
 
+class deletes(LoginRequiredMixin,DeleteView):
+	model = NewCourse
+	template_name = "teacher/delete.html"
+	success_url = "/teacher"
 
 
 

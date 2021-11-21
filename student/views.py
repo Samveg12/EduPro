@@ -4,10 +4,10 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
 from bootstrap_datepicker_plus import DateTimePickerInput
-from .forms import Registerdetail
+from .forms import Registerdetail,Review
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.auth import authenticate, login, logout
-from .models import Belongs,otherDetails,Education
+from .models import Belongs,otherDetails,Education,myBookedSlots
 from teacher.models import  Belonging,NewCourse
 from django.core.mail import send_mail
 from django.utils import timezone
@@ -19,7 +19,6 @@ from django.http import HttpResponseBadRequest
 # Create your views here.
 
 @login_required
-
 def index(request):
     f=NewCourse.objects.all()
     print("====")
@@ -79,7 +78,7 @@ def homepage(request):
 # POST request will be made by Razorpay
 # and it won't have the csrf token.
 @csrf_exempt
-def paymenthandler(request):
+def paymenthandler(request,id):
  
     # only accept POST request.
     if request.method == "POST":
@@ -105,19 +104,32 @@ def paymenthandler(request):
 
                 amount = 20000  # Rs. 200
                 try:
+                    print("HEYy")
+                    print(payment_id)
+                    print(amount)
  
                     # capture the payemt
-                    razorpay_client.payment.capture(payment_id, amount)
+                    # razorpay_client.payment.capture(payment_id, amount)
  
                     # render success page on successful caputre of payment
-                    return render(request, 'paymentsuccess.html')
+                    #student (my booked slots)
+                    #teacher(my booked slots)
+                    y=NewCourse.objects.filter(id=id)
+                    f=myBookedSlots(user=request.user,booked_course=y[0])
+                    f.save()
+
+
+
+                    return HttpResponse("Payment SUCCESS")
                 except:
+                    print("------")
  
                     # if there is an error while capturing payment.
-                    return render(request, 'paymentfail.html')
+                    return HttpResponse("Payment FAILED")
             else:
+                print("----------------------------")
                 # if signature verification fails.
-                return render(request, 'paymentfail.html')
+                return HttpResponse("Payment FAILED")
         except:
             # print("EHEHEHEHE")
             # if we don't find the required parameters in POST data
@@ -165,7 +177,7 @@ def details(request,id):
     y=NewCourse.objects.filter(id=id)
 
     currency = 'INR'
-    amount = str(y[0].price*10)  # Rs. 200
+    amount = str(y[0].price*100)  # Rs. 200
  
     # Create a Razorpay Order
     razorpay_order = razorpay_client.order.create(dict(amount=amount,
@@ -174,7 +186,7 @@ def details(request,id):
  
     # order id of newly created order.
     razorpay_order_id = razorpay_order['id']
-    callback_url = 'paymenthandler/'
+    callback_url = 'paymenthandler/'+str(id)
  
     # we need to pass these details to frontend.
     context = {}
@@ -186,3 +198,50 @@ def details(request,id):
     context['y']=y[0]
  
     return render(request, 'student/details.html', context=context)
+def bookings(request):
+    s=myBookedSlots.objects.filter(user=request.user)
+    context={'s':s}
+    return render(request, 'student/myslots.html', context)
+
+def createReview(request,id):
+    if request.method == "POST":
+        
+        form = Review(request.POST, request.FILES)
+        if form.is_valid():
+            object = form.save(commit=False)
+            object.user = request.user
+            object.course=NewCourse.objects.filter(id=id)[0]
+            object.save()
+
+        messages.success(request, "Your NGO account has been successfully created")
+        return HttpResponse("SUCCESS")
+        # print("hi")
+
+    else:
+        flag=0
+        y=myBookedSlots.objects.all()
+        print(y)
+        for i in y:
+            if(i.booked_course.id==id and i.user==request.user):
+                print("JKJKJKJKJKJK")
+                flag=1
+                break
+            print("===")
+            print(i.user)
+            print(request.user)
+            print(i.booked_course.id)
+            print(id)
+        if(flag):
+            form = Review()
+            return render(request, 'student/createreview.html', {"form": form,"id":id})
+        else:
+            return HttpResponse("YOU ARE NOT ALLOWED")
+        
+
+
+
+
+    
+
+
+

@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'teacher',
     'student',
-    'Login'
+    'Login',
+    "bootstrap4",
+
 ]
 
 MIDDLEWARE = [

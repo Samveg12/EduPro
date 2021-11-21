@@ -107,22 +107,18 @@
                         <img src="https://cdn.analyticsvidhya.com/wp-content/uploads/2021/06/65234datascience-pdusit-stock.jpg"" alt="Latest News" class="img-responsive">
                     </a>
                     <div class="news_desc">
-                        <h3 class="text-capitalize font-normal darkcolor"><a href="blog-detail.html">{{i.title}}</a></h3>
+                        <h3 class="text-capitalize font-normal darkcolor"><a href="blog-detail.html">{{i.booked_course.title}}</a></h3>
                         <ul class="meta-tags top20 bottom20">
-                            <li><a href="#.">{{i.price}}</a></li><br>
+                            <li><a href="#.">{{i.booked_course.price}}</a></li><br>
+                            <!-- <li><a href="#.">{{i.price}}</a></li><br> -->
                         </ul>
-                        <p class="bottom35">{{i.description}}</p>
+                        <p class="bottom35">{{i.booked_course.description}}</p>
                         <p class="bottom35">Pickup Address:<br>{{i.pickup_address}}</p>
-                        <a href="/teacher/update/{{i.id}}">
-                          <button type="button" class="btn btn-primary btn-lg">Update</button>
-                        </a>
-                        <a href="/teacher/delete/{{i.id}}">
-
-
-                          <button type="button" class="btn btn-primary btn-lg">Delete</button>
-                        </a>
-
+                        
                     </div>
+                    <a href="/student/review/{{i.booked_course.id}}">
+                        <button type="button" class="btn btn-primary btn-lg">Write A review</button>
+                      </a>
                 </div>
             </div>
             

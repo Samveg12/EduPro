@@ -30,6 +30,13 @@ class NewCourse(models.Model):
     timings=models.ManyToManyField(Timings)
     price=models.IntegerField(default=0)
     description=models.TextField(max_length=250, blank=True)
+
+# class myBooked(models.Model):
+#     user = models.ForeignKey(User,on_delete=models.CASCADE)
+#     course=models.ForeignKey(NewCourse,on_delete=models.CASCADE)
+
+
+
     
 
 
