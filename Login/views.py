@@ -12,6 +12,8 @@ from teacher.models import Belonging
 
 from django.core.mail import send_mail
 from django.utils import timezone
+from django.http import HttpResponseRedirect
+
 # Create your views here.
 
 def loginpage(request):
@@ -43,7 +45,7 @@ def loginpage(request):
                     # print(h)
                     # parameter={'j':j,'h':h}
                     messages.success(request,"Successfully Logged in")
-                    return render(request,'/Users/samvegshah/Desktop/EduPro/Edupro/student/templates/student/index.html')
+                    return HttpResponseRedirect('/student/')
             if(Belonging.objects.get(user = user) is not None):
                 if Belonging.objects.get(user = user).is_teacher:
                     login(request,user)
@@ -63,7 +65,7 @@ def loginpage(request):
                     # print(h)
                     # parameter={'j':j,'h':h}
                     messages.success(request,"Successfully Logged in")
-                    return render(request,'/Users/samvegshah/Desktop/EduPro/Edupro/teacher/templates/teacher/index.html')
+                    return HttpResponseRedirect('/teacher/')
 
             else:
                 messages.error(request,"Wrong credentials,Please try again !")

@@ -17,6 +17,7 @@ def index(request):
 
 def signup(request):
     if request.method == "POST":
+        
         username = request.POST.get('name')
         email = request.POST.get('email')
         password = request.POST.get('password')
@@ -81,7 +82,10 @@ def newcourse(request):
                 if form.is_valid():
                     object = form.save(commit=False)
                     object.user = request.user
+                    print("::::::::")
+                    print(object.user)
                     object.save()
+                    # object.save_m2m()
                 return HttpResponse("FORM SUCCESSFULLY SAVED")
             else:
                 form = newCourse()

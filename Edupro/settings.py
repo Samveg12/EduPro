@@ -127,6 +127,8 @@ STATICFILES_DIRS = [
 ]
 MEDIA_URL='/media/'
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+RAZOR_KEY_ID = "rzp_test_OAiobfMhl9J8SC"
+RAZOR_KEY_SECRET = "r64LO1fWWG9395VV4yQxoEdq"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

@@ -25,7 +25,7 @@ class Timings(models.Model):
     def __str__(self):
         return str(self.time)
 class NewCourse(models.Model):
-    user = models.OneToOneField(User, related_name="othdetail", related_query_name="othdetail", null=True, blank=True,on_delete=models.CASCADE)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
     title=models.CharField(max_length=20,blank=False)
     timings=models.ManyToManyField(Timings)
     price=models.IntegerField(default=0)
