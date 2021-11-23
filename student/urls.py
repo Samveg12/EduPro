@@ -15,7 +15,9 @@ urlpatterns = [
     path('review/<int:id>',views.createReview,name="createReview"),
     path('updatereview/<int:pk>',views.updates.as_view()),
     path('deletereview/<int:pk>',views.deletes.as_view()),
-    path('chooseslot/<int:id>',views.chooseslot,name="as_view()")
+    path('chooseslot/<int:id>',views.chooseslot,name="as_view()"),
+    path('event',views.meet,name="event")
+
 
 
 

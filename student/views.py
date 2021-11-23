@@ -18,6 +18,10 @@ from django.views.generic.edit import CreateView,UpdateView,DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseBadRequest
+from apiclient.discovery import build
+from google_auth_oauthlib.flow import InstalledAppFlow
+import pickle
+from datetime import datetime, timedelta
 # Create your views here.
 
 @login_required
@@ -298,6 +302,58 @@ def createReview(request,id):
             return render(request, 'student/createreview.html', {"form": form,"id":id})
         else:
             return HttpResponse("YOU ARE NOT ALLOWED")
+
+def meet(request):
+    scopes = ['https://www.googleapis.com/auth/calendar']
+
+    credentials = pickle.load(open(r"C:\D\Ashish\Projects\EduPro\student\token.pkl", "rb"))
+    service = build("calendar", "v3", credentials=credentials)
+    result = service.calendarList().list().execute()
+    calendar_id = result['items'][0]['id']
+    result = service.events().list(calendarId=calendar_id, timeZone="Asia/Kolkata").execute()
+    start_time = datetime(2021, 11, 25, 12, 00, 0)
+    end_time = start_time + timedelta(hours=4)
+    timezone = 'Asia/Kolkata'
+
+    event = {
+        'summary': 'Discussion Project',
+        'location': 'Mumbai',
+        'description': 'SE Lab',
+        'start': {
+            'dateTime': start_time.strftime("%Y-%m-%dT%H:%M:%S"),
+            'timeZone': timezone,
+        },
+        'conferenceDataVersion': 1,
+        'conferenceData': {
+                'createRequest': {
+                        "requestId": "RandomString",
+                        'conferenceSolutionKey': {
+                            'type': 'hangoutsMeet'
+                        },
+                        #  'status': {
+                        # 'statusCode': "404"
+                        #  }
+                        }
+        },
+        'end': {
+            'dateTime': end_time.strftime("%Y-%m-%dT%H:%M:%S"),
+            'timeZone': timezone,
+        },
+        'attendees': [
+            {'email': 'samvegvshah13@gmail.com'},
+            {'email': 'ashish.todi@spit.ac.in'},
+        ],
+        'reminders': {
+            'useDefault': False,
+            'overrides': [
+            {'method': 'email', 'minutes': 24 * 60},
+            {'method': 'popup', 'minutes': 10},
+            ],
+        },
+            'sendNotifications':True,
+        }
+    service.events().insert(calendarId=calendar_id, conferenceDataVersion=1, body=event).execute()
+    return HttpResponse("SUCCESS")
 
 class updates(LoginRequiredMixin,UpdateView):
 	model = Review
