@@ -4,16 +4,18 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
 from bootstrap_datepicker_plus import DateTimePickerInput
-from .forms import Registerdetail,Review
+from .forms import Registerdetail,Reviewz,MyBookeds
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.auth import authenticate, login, logout
-from .models import Belongs,otherDetails,Education,myBookedSlots
+from .models import Belongs,otherDetails,Education,myBookedSlots,Review
 from teacher.models import  Belonging,NewCourse
 from django.core.mail import send_mail
 from django.utils import timezone
 from django.shortcuts import render
 import razorpay
 from django.conf import settings
+from django.views.generic.edit import CreateView,UpdateView,DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseBadRequest
 # Create your views here.
@@ -24,6 +26,7 @@ def index(request):
     print("====")
     print(f)
     parameter={'f':f}
+
 
 
     return render(request,'student/index.html',parameter)
@@ -83,6 +86,17 @@ def paymenthandler(request,id):
     # only accept POST request.
     if request.method == "POST":
         try:
+            form = MyBookeds(request.POST, request.FILES)
+            # print(form.is_valid())
+            if form.is_valid():
+                print("________-=-=")
+
+                object = form.save(commit=False)
+                object.user = request.user
+                y=NewCourse.objects.filter(id=id)
+                object.booked_course=NewCourse.objects.filter(id=id)[0]
+                object.save()
+            
            
             # get the required parameters from post request.
             payment_id = request.POST.get('razorpay_payment_id', '')
@@ -114,9 +128,8 @@ def paymenthandler(request,id):
                     # render success page on successful caputre of payment
                     #student (my booked slots)
                     #teacher(my booked slots)
-                    y=NewCourse.objects.filter(id=id)
-                    f=myBookedSlots(user=request.user,booked_course=y[0])
-                    f.save()
+                    
+                    
 
 
 
@@ -196,6 +209,34 @@ def details(request,id):
     context['currency'] = currency
     context['callback_url'] = callback_url
     context['y']=y[0]
+    u=Review.objects.all()
+    k=[]
+    m=[]
+    flag=0
+    for i in u:
+        if(i.course.id==id):
+            # k.append(i)
+            if(i.user==request.user):
+                flag=1
+                k.append(i)
+    for i in u:
+        if(i.course.id==id):
+            if(i.user==request.user):
+                continue
+            else:
+                k.append(i)
+    if(flag):
+        d=k[0]
+        k.pop(0)
+        context['d']=d
+        print(d.id)
+    form = MyBookeds()
+    context['form']=form
+    context['k']=k
+    context['flag']=flag
+    
+
+
  
     return render(request, 'student/details.html', context=context)
 def bookings(request):
@@ -205,15 +246,25 @@ def bookings(request):
 
 def createReview(request,id):
     if request.method == "POST":
-        
-        form = Review(request.POST, request.FILES)
-        if form.is_valid():
-            object = form.save(commit=False)
-            object.user = request.user
-            object.course=NewCourse.objects.filter(id=id)[0]
-            object.save()
+        u=Review.objects.all()
+        o=NewCourse.objects.filter(id=id)
+        flag=0
+        for i in u:
+            if(i.user==request.user and i.course==o[0].id):
+                flag=1
+        if(flag==1):
+            return HttpResponse("NOT ALLOWED")
+        else:
 
-        messages.success(request, "Your NGO account has been successfully created")
+        
+            form = Reviewz(request.POST, request.FILES)
+            if form.is_valid():
+                object = form.save(commit=False)
+                object.user = request.user
+                object.course=NewCourse.objects.filter(id=id)[0]
+                object.save()
+
+            messages.success(request, "Your NGO account has been successfully created")
         return HttpResponse("SUCCESS")
         # print("hi")
 
@@ -232,10 +283,27 @@ def createReview(request,id):
             print(i.booked_course.id)
             print(id)
         if(flag):
-            form = Review()
+            form = Reviewz()
+            print(form)
             return render(request, 'student/createreview.html', {"form": form,"id":id})
         else:
             return HttpResponse("YOU ARE NOT ALLOWED")
+
+class updates(LoginRequiredMixin,UpdateView):
+	model = Review
+	template_name = "student/updatereview.html"
+	fields = ("title","score","desc")
+	success_url = "/student"
+	def get_form(self):
+		form = super(updates,self).get_form()
+		# form.fields['startdate'].widget = DateTimePickerInput()
+		# form.fields['enddate'].widget = DateTimePickerInput()
+		return form 
+
+class deletes(LoginRequiredMixin,DeleteView):
+	model = Review
+	template_name = "student/deletereview.html"
+	success_url = "/student"
         
 
 

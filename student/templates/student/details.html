@@ -66,14 +66,46 @@
     <div class="card">
       <h1 class="title">{{y.title}}</h1>
       <small class="muted"
-        >{{y.description}}</small
-      >
+        >{{y.description}}</small>
       <form method="post" action="/student/payment/{{y.id}}">{% csrf_token %}
 
         <input type="hidden" value={{y.price}} name="money"/>
         <input class="btn" id="pay-btn" type="submit" value="Pay now"/>
+        {{form.as_p}}
     
     </form>
+    {% if flag %}
+
+    <h3 class="text-capitalize font-normal darkcolor"><a href="blog-detail.html">{{d.user}}</a></h3>
+                        <ul class="meta-tags top20 bottom20">
+                            <!-- <li><a href="#.">{{i.title}}</a></li><br> -->
+                            <li><a href="#.">{{d.score}}</a></li><br>
+                        </ul>
+                        <p class="bottom35">{{d.desc}}</p>
+                        <form  action="/student/updatereview/{{d.id}}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+
+                          <button>update</button>
+                        </form>
+                        <form  action="/student/deletereview/{{d.id}}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+
+                          <button>delete</button>
+                        </form>
+                        
+    {% else %}
+    <p></p>
+    {% endif %}
+    {% for i in k %}
+                        <h3 class="text-capitalize font-normal darkcolor"><a href="blog-detail.html">{{i.user}}</a></h3>
+                        <ul class="meta-tags top20 bottom20">
+                            <!-- <li><a href="#.">{{i.title}}</a></li><br> -->
+                            <li><a href="#.">{{i.score}}</a></li><br>
+                        </ul>
+                        <p class="bottom35">{{i.desc}}</p>
+                        <!-- <p class="bottom35">Pickup Address:<br>{{i.pickup_address}}</p> -->
+        
+            {% endfor %}
+            
+
       
     </div>
   </body>
