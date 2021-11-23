@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-+^6tg^b=+k^b8se=11$eh!l74y2a@@wx%f+$3%9-b2(9gv)53$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "bootstrap4",
 
 ]
+# DATE_INPUT_FORMATS = ['%d-%m-%Y']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

@@ -33,15 +33,15 @@ class FixTimings(models.Model):
     def __str__(self):
         return str(self.time)
 class myBookedSlots(models.Model):
-    def validate_date(date):
-        if datetime.datetime.now().date()<=date<=datetime.datetime.now().date() + timedelta(days=3):
-            return(True)
-        else:
-            raise ValidationError("Date has to be within current date and 3 days after current date")
+    # def validate_date(date):
+    #     if datetime.datetime.now().date()<=date<=datetime.datetime.now().date() + timedelta(days=3):
+    #         return(True)
+    #     else:
+    #         raise ValidationError("Date has to be within current date and 3 days after current date")
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     booked_course=models.ForeignKey(NewCourse,on_delete=models.CASCADE)
-    date = models.DateField(null=False, blank=False, default=None, validators=[validate_date])
-    time=models.OneToOneField(FixTimings, related_name="belongss", related_query_name="belongss", null=False, blank=False,
+    date = models.DateTimeField(blank=True, null=True)
+    time=models.OneToOneField(FixTimings, related_name="belongss", related_query_name="belongss", null=True, blank=True,
                                 on_delete=models.CASCADE)
     
 

@@ -67,11 +67,11 @@
       <h1 class="title">{{y.title}}</h1>
       <small class="muted"
         >{{y.description}}</small>
-      <form method="post" action="/student/payment/{{y.id}}">{% csrf_token %}
+      <form method="POST" action="/student/paymenthandler/{{y.id}}" enctype="multipart/form-data">{% csrf_token %}
 
-        <input type="hidden" value={{y.price}} name="money"/>
-        <input class="btn" id="pay-btn" type="submit" value="Pay now"/>
-        {{form.as_p}}
+        <input class="btn" id="pay-btn" type="submit" value="Pay now">
+
+        <!-- {{form.as_p}} -->
     
     </form>
     {% if flag %}

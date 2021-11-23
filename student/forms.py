@@ -17,12 +17,14 @@ class Reviewz(forms.ModelForm):
         model=Review
         fields = "__all__"
         exclude = ('user','course')
-
+class DateInput(forms.DateInput):
+    input_type = 'date'
 class MyBookeds(forms.ModelForm):
     class Meta:
         model=myBookedSlots
-        fields=['date','time']
+        fields=['time','date']
         widgets = {
-            'date': DateInput(attrs={'type': 'date'}),
+            'date': DateInput(),
         }
+        
 

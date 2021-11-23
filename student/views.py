@@ -86,18 +86,7 @@ def paymenthandler(request,id):
     # only accept POST request.
     if request.method == "POST":
         try:
-            form = MyBookeds(request.POST, request.FILES)
-            # print(form.is_valid())
-            if form.is_valid():
-                print("________-=-=")
-
-                object = form.save(commit=False)
-                object.user = request.user
-                y=NewCourse.objects.filter(id=id)
-                object.booked_course=NewCourse.objects.filter(id=id)[0]
-                object.save()
-            
-           
+              
             # get the required parameters from post request.
             payment_id = request.POST.get('razorpay_payment_id', '')
             razorpay_order_id = request.POST.get('razorpay_order_id', '')
@@ -186,59 +175,80 @@ def signup(request):
         form = Registerdetail()
         return render(request, 'student/signup.html', {"form": form})
 
-def details(request,id):
-    y=NewCourse.objects.filter(id=id)
 
-    currency = 'INR'
-    amount = str(y[0].price*100)  # Rs. 200
- 
-    # Create a Razorpay Order
-    razorpay_order = razorpay_client.order.create(dict(amount=amount,
-                                                       currency=currency,
-                                                       payment_capture='0'))
- 
-    # order id of newly created order.
-    razorpay_order_id = razorpay_order['id']
-    callback_url = 'paymenthandler/'+str(id)
- 
-    # we need to pass these details to frontend.
-    context = {}
-    context['razorpay_order_id'] = razorpay_order_id
-    context['razorpay_merchant_key'] = settings.RAZOR_KEY_ID
-    context['razorpay_amount'] = amount
-    context['currency'] = currency
-    context['callback_url'] = callback_url
-    context['y']=y[0]
-    u=Review.objects.all()
-    k=[]
-    m=[]
-    flag=0
-    for i in u:
-        if(i.course.id==id):
-            # k.append(i)
-            if(i.user==request.user):
-                flag=1
-                k.append(i)
-    for i in u:
-        if(i.course.id==id):
-            if(i.user==request.user):
-                continue
-            else:
-                k.append(i)
-    if(flag):
-        d=k[0]
-        k.pop(0)
-        context['d']=d
-        print(d.id)
-    form = MyBookeds()
-    context['form']=form
-    context['k']=k
-    context['flag']=flag
+def details(request,id):
+    if(request.method=="POST"):
+        form = MyBookeds(request.POST, request.FILES)
+            # date=request.POST.get('date')
+            # print(date)
+            # y=NewCourse.objects.filter(id=id)[0]
+            # u=myBookedSlots.objects.create(user=request.user,booked_course=y,datee=date)
+        print("&*&*&*&*&*")
+        print(form)    
+        if form.is_valid():
+            print("______---")
+
+            object = form.save(commit=False)
+            object.user = request.user
+                
+            object.booked_course=NewCourse.objects.filter(id=id)[0]
+            object.save() 
+        print(";;;;")
+
+        y=NewCourse.objects.filter(id=id)
+
+        currency = 'INR'
+        amount = str(y[0].price*100)  # Rs. 200
+    
+        # Create a Razorpay Order
+        razorpay_order = razorpay_client.order.create(dict(amount=amount,
+                                                        currency=currency,
+                                                        payment_capture='0'))
+    
+        # order id of newly created order.
+        razorpay_order_id = razorpay_order['id']
+        callback_url = 'paymenthandler/'+str(id)
+    
+        # we need to pass these details to frontend.
+        context = {}
+        context['razorpay_order_id'] = razorpay_order_id
+        context['razorpay_merchant_key'] = settings.RAZOR_KEY_ID
+        context['razorpay_amount'] = amount
+        context['currency'] = currency
+        context['callback_url'] = callback_url
+        context['y']=y[0]
+        u=Review.objects.all()
+        k=[]
+        m=[]
+        flag=0
+        for i in u:
+            if(i.course.id==id):
+                # k.append(i)
+                if(i.user==request.user):
+                    flag=1
+                    k.append(i)
+        for i in u:
+            if(i.course.id==id):
+                if(i.user==request.user):
+                    continue
+                else:
+                    k.append(i)
+        if(flag):
+            d=k[0]
+            k.pop(0)
+            context['d']=d
+            print(d.id)
+        form = MyBookeds()
+        context['form']=form
+        context['k']=k
+        context['flag']=flag
     
 
 
  
-    return render(request, 'student/details.html', context=context)
+        return render(request, 'student/details.html', context=context)
+    else:
+        return HttpResponse("HELLo")
 def bookings(request):
     s=myBookedSlots.objects.filter(user=request.user)
     context={'s':s}
@@ -304,7 +314,16 @@ class deletes(LoginRequiredMixin,DeleteView):
 	model = Review
 	template_name = "student/deletereview.html"
 	success_url = "/student"
-        
+
+def chooseslot(request,id):
+    form=MyBookeds()
+    context={}
+    context['id']=id
+    context['form']=form
+    return render(request,'student/timings.html',context)
+
+
+
 
 
 
