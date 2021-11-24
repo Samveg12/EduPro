@@ -41,8 +41,7 @@ class myBookedSlots(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     booked_course=models.ForeignKey(NewCourse,on_delete=models.CASCADE)
     date = models.DateTimeField(blank=True, null=True)
-    time=models.OneToOneField(FixTimings, related_name="belongss", related_query_name="belongss", null=True, blank=True,
-                                on_delete=models.CASCADE)
+    time=models.ForeignKey(FixTimings, on_delete=models.CASCADE)
     
 
 class Review(models.Model):

@@ -114,7 +114,13 @@ def paymenthandler(request,id):
                     print("HEYy")
                     print(payment_id)
                     print(amount)
- 
+                    s=myBookedSlots.objects.last()
+                    print(s)
+                    semail=request.user.email
+                    temail=s.booked_course.user.email
+                    print(semail)
+                    print(temail)
+                    meet(s.date,s.time,semail,temail)
                     # capture the payemt
                     # razorpay_client.payment.capture(payment_id, amount)
  
@@ -197,6 +203,7 @@ def details(request,id):
                 
             object.booked_course=NewCourse.objects.filter(id=id)[0]
             object.save() 
+            u=object.id
         print(";;;;")
 
         y=NewCourse.objects.filter(id=id)
@@ -246,6 +253,7 @@ def details(request,id):
         context['form']=form
         context['k']=k
         context['flag']=flag
+        context['u']=u
     
 
 
@@ -303,16 +311,21 @@ def createReview(request,id):
         else:
             return HttpResponse("YOU ARE NOT ALLOWED")
 
-def meet(request):
+def meet(date,time,semail,temail):
+    print(date)
+    print(time)
     scopes = ['https://www.googleapis.com/auth/calendar']
+    d=str(date)
+    t=str(time)
 
     credentials = pickle.load(open(r"C:\D\Ashish\Projects\EduPro\student\token.pkl", "rb"))
     service = build("calendar", "v3", credentials=credentials)
     result = service.calendarList().list().execute()
     calendar_id = result['items'][0]['id']
     result = service.events().list(calendarId=calendar_id, timeZone="Asia/Kolkata").execute()
-    start_time = datetime(2021, 11, 25, 12, 00, 0)
+    start_time = datetime(int(d[0:4]), int(d[5:7]), int(d[8:10]), int(t[0:2]), int(t[3:5], 0))
     end_time = start_time + timedelta(hours=4)
+    
     timezone = 'Asia/Kolkata'
 
     event = {
@@ -340,8 +353,8 @@ def meet(request):
             'timeZone': timezone,
         },
         'attendees': [
-            {'email': 'samvegvshah13@gmail.com'},
-            {'email': 'ashish.todi@spit.ac.in'},
+            {'email': semail},
+            {'email': temail},
         ],
         'reminders': {
             'useDefault': False,
