@@ -102,5 +102,5 @@ def loginpage(request):
         #     return(HttpResponse("HELLLLLLLo"))
     else:
         print("Hii")
-        messages.success(request, "You need to login to access this")
+        # messages.success(request, "You need to login to access this")
         return render(request, 'Login/login.html')

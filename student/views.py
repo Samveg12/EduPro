@@ -317,12 +317,17 @@ def meet(date,time,semail,temail):
     scopes = ['https://www.googleapis.com/auth/calendar']
     d=str(date)
     t=str(time)
-
-    credentials = pickle.load(open(r"C:\D\Ashish\Projects\EduPro\student\token.pkl", "rb"))
+    
+    credentials = pickle.load(open(r"C:\D\Ashish\Projects\EduPro\student\token2.pkl", "rb"))
+    
+    
     service = build("calendar", "v3", credentials=credentials)
+    
     result = service.calendarList().list().execute()
+    
     calendar_id = result['items'][0]['id']
     result = service.events().list(calendarId=calendar_id, timeZone="Asia/Kolkata").execute()
+    
     start_time = datetime(int(d[0:4]), int(d[5:7]), int(d[8:10]), int(t[0:2]), int(t[3:5], 0))
     end_time = start_time + timedelta(hours=4)
     
@@ -366,6 +371,7 @@ def meet(date,time,semail,temail):
             'sendNotifications':True,
         }
     service.events().insert(calendarId=calendar_id, conferenceDataVersion=1, body=event).execute()
+    
     return HttpResponse("SUCCESS")
 
 class updates(LoginRequiredMixin,UpdateView):

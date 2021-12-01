@@ -1,8 +1,5 @@
 
-<h1></h1>
-<h2>{{y.timings}}</h2>
-<h1>{{y.title}}</h1>
-<h1>{{y.price}}</h1>
+
 
 
 <!DOCTYPE html>
@@ -12,103 +9,392 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GFG</title>
-    <style>
-      * {
-        box-sizing: border-box;
-        padding: 0px;
-        margin: 0px;
-        font-family: cursive;
-      }
-      html,
-      body {
-        height: 100%;
-      }
-      body {
-        background-color: #f1f5f8;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-      .card {
-        background-color: white;
-        padding: 25px;
-        border: 1px solid #bbbbbb;
-        border-radius: 5px;
-        box-shadow: 1px 1px 10px 0px rgb(0 0 0 / 25%);
-      }
-      .title {
-        text-align: center;
-        letter-spacing: 1px;
-      }
-      .muted {
-        color: #8e7f7f;
-        display: block;
-        margin-bottom: 10px;
-        text-align: center;
-      }
-      .btn_container {
-        padding: 20px;
-        text-align: center;
-      }
-      .btn {
-        border-radius: 4px;
-        cursor: pointer;
-        padding: 4px 8px;
-        background-color: #ffaaa7;
-        color: white;
-        font-size: 1.2em;
-        font-weight: 600;
-        letter-spacing: 1px;
-      }
-    </style>
+    {% load static %}
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="multikart">
+    <meta name="keywords" content="multikart">
+    <meta name="author" content="multikart">
+    <link rel="icon" href="{% static 'student/image/favicon/1.png' %}" type="image/x-icon">
+    <link rel="shortcut icon" href="{% static 'student/image/favicon/1.png' %}" type="image/x-icon">
+    <title>EduPro</title>
+
+    <!--Google font-->
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com/">
+    <link href="https://fonts.googleapis.com/css2?family=Yellowtail&amp;display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+                  
+    <!--Slick slider css-->
+    <link rel="stylesheet" type="text/css" href="{% static 'student/css/slick.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'student/css/slick-theme.css' %}">
+
+    <!-- Animate icon -->
+    <link rel="stylesheet" type="text/css" href="{% static 'student/css/animate.css' %}">
+
+    <!-- Themify icon -->
+    <link rel="stylesheet" type="text/css" href="{% static 'student/css/themify-icons.css' %}">
+
+    <!-- Bootstrap css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'student/css/bootstrap.css' %}">
+
+    <!-- Theme css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'student/css/style.css' %}">
+
+
   </head>
-  <body>
-    <div class="card">
-      <h1 class="title">{{y.title}}</h1>
-      <small class="muted"
-        >{{y.description}}</small>
-      <form method="POST" action="/student/paymenthandler/{{y.id}}" enctype="multipart/form-data">{% csrf_token %}
-
-        <input class="btn" id="pay-btn" type="submit" value="Pay now">
-
-        <!-- {{form.as_p}} -->
+    <!-- header start -->
+    <header>
+        
+      <div class="loader_skeleton">
+        <header>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="main-menu">
+                            <div class="menu-left">
+                                
+                                <div style="height:20px;margin-bottom:0px;" class="brand-logo">
+                                    <a href="index.html"><img style = "height: 60px;" src = "{% static 'student/images/Logo2.jpg' %}"
+                                            class="img-fluid blur-up lazyload" alt=""></a>
+                                </div>
+                            </div>
+                            <div class="menu-right pull-right">
+                                <div>
+                                    <nav>
+                                        <div class="toggle-nav"><i class="fa fa-bars sidebar-bar"></i></div>
+                                        <ul class="sm pixelstrap sm-horizontal">
+                                            <li>
+                                                <div class="mobile-back text-end">Back<i class="fa fa-angle-right ps-2"
+                                                        aria-hidden="true"></i></div>
+                                            </li>
+                                            <li>
+                                                <a href="/student">Home</a>
+                                            </li>
+                                            <li>
+                                                <a href="/student/logout">Logout</a>
+                                            </li>
+                                            <li>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                                <div>
+                                    <div class="icon-nav d-none d-sm-block">
+                                        <ul>
+                                            
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div class="home-slider">
+            <div class="home"></div>
+        </div>
+        <section class="collection-banner">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="ldr-bg">
+                            <div class="contain-banner">
+                                <div>
+                                    <h4></h4>
+                                    <h2></h2>
+                                    <h6></h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="ldr-bg">
+                            <div class="contain-banner">
+                                <div>
+                                    <h4></h4>
+                                    <h2></h2>
+                                    <h6></h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="container section-b-space">
+            <div class="row section-t-space">
+                <div class="col-lg-6 offset-lg-3">
+                    <div class="product-para">
+                        <p class="first"></p>
+                        <p class="second"></p>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="no-slider row">
+                        <div class="product-box">
+                            <div class="img-wrapper"></div>
+                            <div class="product-detail">
+                                <h4></h4>
+                                <h5></h5>
+                                <h5 class="second"></h5>
+                                <h6></h6>
+                            </div>
+                        </div>
+                        <div class="product-box">
+                            <div class="img-wrapper"></div>
+                            <div class="product-detail">
+                                <h4></h4>
+                                <h5></h5>
+                                <h5 class="second"></h5>
+                                <h6></h6>
+                            </div>
+                        </div>
+                        <div class="product-box">
+                            <div class="img-wrapper"></div>
+                            <div class="product-detail">
+                                <h4></h4>
+                                <h5></h5>
+                                <h5 class="second"></h5>
+                                <h6></h6>
+                            </div>
+                        </div>
+                        <div class="product-box">
+                            <div class="img-wrapper"></div>
+                            <div class="product-detail">
+                                <h4></h4>
+                                <h5></h5>
+                                <h5 class="second"></h5>
+                                <h6></h6>
+                            </div>
+                        </div>
+                        <div class="product-box">
+                            <div class="img-wrapper"></div>
+                            <div class="product-detail">
+                                <h4></h4>
+                                <h5></h5>
+                                <h5 class="second"></h5>
+                                <h6></h6>
+                            </div>
+                        </div>
+                        <div class="product-box">
+                            <div class="img-wrapper"></div>
+                            <div class="product-detail">
+                                <h4></h4>
+                                <h5></h5>
+                                <h5 class="second"></h5>
+                                <h6></h6>
+                            </div>
+                        </div>
+                        <div class="product-box">
+                            <div class="img-wrapper"></div>
+                            <div class="product-detail">
+                                <h4></h4>
+                                <h5></h5>
+                                <h5 class="second"></h5>
+                                <h6></h6>
+                            </div>
+                        </div>
+                        <div class="product-box">
+                            <div class="img-wrapper"></div>
+                            <div class="product-detail">
+                                <h4></h4>
+                                <h5></h5>
+                                <h5 class="second"></h5>
+                                <h6></h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     
-    </form>
-    {% if flag %}
+    <header>
+    
+      <div class="container">
+          <div class="row">
+              <div class="col-sm-12">
+                  <div class="main-menu">
+                      <div class="menu-left">
+                          <div class="navbar">
+                              <a href="javascript:void(0)" onclick="openNav()">
+                                  <div class="bar-style"><i class="" aria-hidden="true"></i>
+                                  </div>
+                              </a>
+                              <div id="mySidenav" class="sidenav">
+                                  <a href="javascript:void(0)" class="sidebar-overlay" onclick="closeNav()"></a>
+                                  
+                              </div>
+                          </div>
+                          <div class="brand-logo">
+                              <a href="index.html"><img style = "height: 60px;" src = "{% static 'student/images/Logo2.jpg' %}"
+                                      class="img-fluid blur-up lazyload" alt=""></a>
+                          </div>
+                      </div>
+                      <div class="menu-right pull-right">
+                          <div>
+                              <nav id="main-nav">
+                                  <ul id="main-menu" class="sm pixelstrap sm-horizontal">
+                                      <li>
+                                          <div class="mobile-back text-end">Back<i class="fa fa-angle-right ps-2"
+                                                  aria-hidden="true"></i></div>
+                                      </li>
+                                      <li><a href="/student">Home</a></li>
+                                      <!-- <li class="mega" id="hover-cls">
+                                          <a href="/teacher/signup">Sign-Up Teacher </a>
+                                          
+                                      </li> -->
+                                      <li>
+                                          <a href="/student/logout">Logout</a>
+                                          
+                                      </li>
+                                  </ul>
+                              </nav>
+                          </div>
+                          <div>
+                              <div class="icon-nav">
+                                  <ul>
+                                      <li class="onhover-div mobile-search">
+                                          <div><img src="../assets/images/icon/search.png" onclick="openSearch()"
+                                                  class="img-fluid blur-up lazyload" alt=""> <i class="ti-search"
+                                                  onclick="openSearch()"></i></div>
+                                          <div id="search-overlay" class="search-overlay">
+                                              <div> <span class="closebtn" onclick="closeSearch()"
+                                                      title="Close Overlay">×</span>
+                                                  <div class="overlay-content">
+                                                      <div class="container">
+                                                          <div class="row">
+                                                              <div class="col-xl-12">
+                                                                  <form>
+                                                                      <div class="form-group">
+                                                                          <input type="text" class="form-control"
+                                                                              id="exampleInputPassword1"
+                                                                              placeholder="Search a Product">
+                                                                      </div>
+                                                                      <button type="submit" class="btn btn-primary"><i
+                                                                              class="fa fa-search"></i></button>
+                                                                  </form>
+                                                              </div>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </li>
+                                      <li class="onhover-div mobile-setting">
+                                          <div><img src="../assets/images/icon/setting.png"
+                                                  class="img-fluid blur-up lazyload" alt=""> <i
+                                                  class="ti-settings"></i></div>
+                                          <div class="show-div setting">
+                                              <h6>language</h6>
+                                              <ul>
+                                                  <li><a href="#">english</a></li>
+                                                  <li><a href="#">french</a></li>
+                                              </ul>
+                                              <h6>currency</h6>
+                                              <ul class="list-inline">
+                                                  <li><a href="#">euro</a></li>
+                                                  <li><a href="#">rupees</a></li>
+                                                  <li><a href="#">pound</a></li>
+                                                  <li><a href="#">doller</a></li>
+                                              </ul>
+                                          </div>
+                                      </li>
+                                      
+                                  </ul>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </header>
+  <section class="section-b-space blog-detail-page review-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <ul class="comment-section">
+                  <form method="POST" action="/student/paymenthandler/{{y.id}}" enctype="multipart/form-data">{% csrf_token %}
 
-    <h3 class="text-capitalize font-normal darkcolor"><a href="blog-detail.html">{{d.user}}</a></h3>
-                        <ul class="meta-tags top20 bottom20">
-                            <!-- <li><a href="#.">{{i.title}}</a></li><br> -->
-                            <li><a href="#.">{{d.score}}</a></li><br>
-                        </ul>
-                        <p class="bottom35">{{d.desc}}</p>
-                        <form  action="/student/updatereview/{{d.id}}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                    <input class="btn" id="pay-btn" type="submit" value="Pay now">
+            
+                    <!-- {{form.as_p}} -->
+                
+                </form>
+                  {% if flag %}  
+                  <li>
+                        <div class="media"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Person_icon_BLACK-01.svg/962px-Person_icon_BLACK-01.svg.png" alt="Generic placeholder image">
+                            <div class="media-body">
+                                <h6>{{d.user}}<span>{{d.title}}</span></h6>
+                                <p>{{d.desc}}Donec rhoncus massa quis nibh imperdiet dictum. Vestibulum id est sit amet felis
+                                  fringilla bibendum at at leo. Proin molestie ac nisi eu laoreet. Integer
+                                  faucibus enim nec ullamcorper tempor. Aenean nec felis dui. Integer tristique
+                                  odio mi, in volutpat metus posuere eu. Aenean suscipit ipsum nunc, id volutpat
+                                  lorem hendrerit ac. Sed id elit quam. In ac mauris arcu. Praesent eget lectus
+                                  sit amet diam vestibulum varius. Suspendisse dignissim mattis leo, nec facilisis
+                                  erat tempor quis. Vestibulum eu vestibulum ex.</p>
+                                <form  action="/student/updatereview/{{d.id}}" method="POST" enctype="multipart/form-data">{% csrf_token %}
 
-                          <button>update</button>
-                        </form>
-                        <form  action="/student/deletereview/{{d.id}}" method="POST" enctype="multipart/form-data">{% csrf_token %}
-
-                          <button>delete</button>
-                        </form>
-                        
-    {% else %}
+                                  <button>update</button>
+                                </form>
+                                <form  action="/student/deletereview/{{d.id}}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+        
+                                  <button>delete</button>
+                                </form>
+                                <ul class="comnt-sec">
+                                    <li><a href="#"><i class="fa fa-thumbs-o-up"
+                                                aria-hidden="true"></i><span>(14)</span></a></li>
+                                    <li><a href="#">
+                                            <div class="unlike"><i class="fa fa-thumbs-o-down"
+                                                    aria-hidden="true"></i>(2)</div>
+                                        </a></li>
+                                </ul>
+                                
+                            </div>
+                        </div>
+                    </li>
+                    
+                    {% else %}
     <p></p>
     {% endif %}
     {% for i in k %}
-                        <h3 class="text-capitalize font-normal darkcolor"><a href="blog-detail.html">{{i.user}}</a></h3>
-                        <ul class="meta-tags top20 bottom20">
-                            <!-- <li><a href="#.">{{i.title}}</a></li><br> -->
-                            <li><a href="#.">{{i.score}}</a></li><br>
-                        </ul>
-                        <p class="bottom35">{{i.desc}}</p>
-                        <!-- <p class="bottom35">Pickup Address:<br>{{i.pickup_address}}</p> -->
-        
-            {% endfor %}
-            
-
-      
+    <li>
+      <div class="media"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Person_icon_BLACK-01.svg/962px-Person_icon_BLACK-01.svg.png" alt="Generic placeholder image">
+          <div class="media-body">
+              <h6>{{i.user}}<span>{{i.title}}</span></h6>
+              <p>{{i.desc}}Donec rhoncus massa quis nibh imperdiet dictum. Vestibulum id est sit amet felis
+                fringilla bibendum at at leo. Proin molestie ac nisi eu laoreet. Integer
+                faucibus enim nec ullamcorper tempor. Aenean nec felis dui. Integer tristique
+                odio mi, in volutpat metus posuere eu. Aenean suscipit ipsum nunc, id volutpat
+                lorem hendrerit ac. Sed id elit quam. In ac mauris arcu. Praesent eget lectus
+                sit amet diam vestibulum varius. Suspendisse dignissim mattis leo, nec facilisis
+                erat tempor quis. Vestibulum eu vestibulum ex.</p>
+              <ul class="comnt-sec">
+                  <li><a href="#"><i class="fa fa-thumbs-o-up"
+                              aria-hidden="true"></i><span>(14)</span></a></li>
+                  <li><a href="#">
+                          <div class="unlike"><i class="fa fa-thumbs-o-down"
+                                  aria-hidden="true"></i>(2)</div>
+                      </a></li>
+                    </ul>
+              
+          </div>
+      </div>
+  </li>
+  {% endfor %}
+  
+                </ul>
+            </div>
+        </div>
     </div>
-  </body>
+</section>
+<body>
    
   <!-- Razorpay's Javascript code. -->
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
@@ -141,4 +427,52 @@
       e.preventDefault();
     };
   </script>
+  <script src="{% static 'student/js/jquery-3.3.1.min.js' %}"></script>
+
+  <!-- fly cart ui jquery-->
+  <script src="{% static 'student/js/jquery-ui.min.js' %}"></script>
+
+  <!-- exitintent jquery-->
+  
+  <script src="{% static 'student/js/jquery.exitintent.js' %}"></script>
+  <script src="{% static 'student/js/exit.js' %}"></script>
+
+  <!-- slick js-->
+  <script src="{% static 'student/js/slick.js' %}"></script>
+
+  <!-- menu js-->
+  <script src="{% static 'student/js/menu.js' %}"></script>
+
+  <!-- lazyload js-->
+  <script src="{% static 'student/js/lazysizes.min.js' %}"></script>
+
+  <!-- Bootstrap js-->
+  <script src="{% static 'student/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Bootstrap Notification js-->
+  <script src="{% static 'student/js/bootstrap-notify.min.js' %}"></script>
+
+  <!-- Fly cart js-->
+  <script src="{% static 'student/js/fly-cart.js' %}"></script>
+
+  <!-- Theme js-->
+  <script src="{% static 'student/js/theme-setting.js' %}"></script>
+  <script src="{% static 'student/js/script.js' %}"></script>
+
+  <script>
+      $(window).on('load', function () {
+          setTimeout(function () {
+              $('#exampleModal').modal('show');
+          }, 2500);
+      });
+
+      function openSearch() {
+          document.getElementById("search-overlay").style.display = "block";
+      }
+
+      function closeSearch() {
+          document.getElementById("search-overlay").style.display = "none";
+      }
+  </script>
+  </body>
 </html>
