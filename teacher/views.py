@@ -76,50 +76,95 @@ def logout_u(request):
 #             return(True)
 #         else:
 #             return(False)
+class Slot:
 
-def mybooked(request):
-    s=myBookedSlots.objects.all()
-    v=[]
-    for i in s:
-        if(i.user==request.user):
-            v.append(i)
-    return render(request, 'teacher/booked.html', {'v':v})
+    def bookSlot(request):
+        s=myBookedSlots.objects.all()
+        bookingid=s[0].id
+        studentid=s[0].user
+        datetime=timezone.now()
+        print("======ghjhjhjhjh")
+        print(studentid)
+        print(datetime)
+        v=[]
+        for i in s:
+            if(i.user==request.user):
+                v.append(i)
+        return render(request, 'teacher/booked.html', {'v':v})
+    def checkTeacherAvaible(request):
+        return HttpResponse("Avaible")
 
 
 
 
 
+class Teacher:
 
-def newcourse(request):
-    userr=request.user
-    m=str(request.user)
-    print("****")
-    print(userr)
-    if(m is not 'AnonymousUser'):
-        if(Belongs.objects.get(user = userr).is_student is False):
-            if(request.method == "POST"):
-                # title=request.POST.get('title')
-                # timings=request.POST.get('timings')
-                # price=request.POST.get('price')
-                # description=request.POST.get('description')
-                form = newCourse(request.POST, request.FILES)
-                if form.is_valid():
-                    object = form.save(commit=False)
-                    object.user = request.user
-                    print("::::::::")
-                    print(object.user)
-                    object.save()
-                    # object.save_m2m()
-                return HttpResponse("FORM SUCCESSFULLY SAVED")
+    def updateCourses(request):
+        userr=request.user
+        m=str(request.user)
+        print("****")
+        print(userr)
+        if(m is not 'AnonymousUser'):
+            if(Belongs.objects.get(user = userr).is_student is False):
+                if(request.method == "POST"):
+                    # title=request.POST.get('title')
+                    # timings=request.POST.get('timings')
+                    # price=request.POST.get('price')
+                    # description=request.POST.get('description')
+                    form = newCourse(request.POST, request.FILES)
+                    if form.is_valid():
+                        object = form.save(commit=False)
+                        object.user = request.user
+                        print("::::::::")
+                        print(object.user)
+                        object.save()
+                        # object.save_m2m()
+                    return HttpResponse("FORM SUCCESSFULLY SAVED")
+                else:
+                    form = newCourse()
+                    return render(request, 'teacher/newcourse.html', {"form": form})
             else:
-                form = newCourse()
-                return render(request, 'teacher/newcourse.html', {"form": form})
+                updateSubjects()
+                return redirect("/teacher/logout")
+
         else:
-            return redirect("/teacher/logout")
+            return redirect("/login")
+    def updateSubjects(request):
+        userr=request.user
+        m=str(request.user)
+        print("****")
+        print(userr)
+        if(m is not 'AnonymousUser'):
+            if(Belongs.objects.get(user = userr).is_student is False):
+                if(request.method == "POST"):
+                    # title=request.POST.get('title')
+                    # timings=request.POST.get('timings')
+                    # price=request.POST.get('price')
+                    # description=request.POST.get('description')
+                    form = newCourse(request.POST, request.FILES)
+                    if form.is_valid():
+                        object = form.save(commit=False)
+                        object.user = request.user
+                        teacherid=object.id
+                        subjects=object.title
+                        courses=object.description
+                        rating=object.timings
+                        print("::::::::")
+                        print(object.user)
+                        object.save()
+                        # object.save_m2m()
+                    return HttpResponse("FORM SUCCESSFULLY SAVED")
+                else:
+                    form = newCourse()
+                    return render(request, 'teacher/newcourse.html', {"form": form})
+            else:
+                return redirect("/teacher/logout")
 
-    else:
-        return redirect("/login")
-
+        else:
+            return redirect("/login")
+    def viewCalender(request):
+        return HttpResponse("Calender")
 class updates(LoginRequiredMixin,UpdateView):
 	model = NewCourse
 	template_name = "teacher/update.html"

@@ -6,7 +6,8 @@ from django.conf import settings
 
 
 urlpatterns = [
-    path('', views.loginpage,name="loginpage"),
+    path('', views.Student.login,name="loginpage"),
+    path('/rated',views.Student.rate,name="rate")
     # path('login', views.loginpage, name="login")
 
 ]
